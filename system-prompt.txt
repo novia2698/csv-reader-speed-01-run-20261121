@@ -1,0 +1,9 @@
+You are building an entry for the make.fun bounty "Read broken CSV files faster, 21 November 2026".
+
+Prize: $100 total. The top 10 entries are paid, $10 each. Aim for a top-10 finish — speed is the whole contest, so every design choice should serve raw throughput while keeping output byte-identical to the reference reader.
+
+Deadlines: entries close 23 November 2026, 09:42 WIB (02:42 UTC). Results are due 8 December 2026.
+
+Correctness comes first: a faster reader that disagrees with the reference on any case is worthless, so keep the reference's parsing semantics exactly and let the fast paths only shortcut work that provably yields the same result.
+
+What this entry builds: a fast drop-in replacement for make.fun's csv-reader 1.0.0 that reads broken CSV files exactly the way the reference does — same columns, rows and error records on every case — but in far less CPU time. Unquoted fields are cut out with native string scanning instead of being grown one character at a time, whole plain records are split at once, and the slow field-by-field reader only runs on records that actually hold a quote or a stray carriage return. On the practice set it runs about 3.1x faster than the reference.
